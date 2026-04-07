@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nama Saya</title>
 </head>
-<body style="font-family: Arial; margin-top: 100px;">
+<body style="font-family: Arial; margin-top: 50px;">
 
 
     <h1>Nama  : Muhammad Naufal</h1>
