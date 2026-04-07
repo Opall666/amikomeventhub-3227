@@ -8,7 +8,7 @@
 <body style="font-family: Arial; margin-top: 50px;">
 
 
-    <h1>Nama  : Muhammad Naufal</h1>
+    <h2>Nama  : Muhammad Naufal</h2>
     <h2>Nim   : 24.12.3227</h2>
     <h3>Kelas : DB-04</h3>
     <h3>Prodi : Sistem Informasi</h3>
