@@ -14,6 +14,7 @@
     <a href="/profil" class="px-4 py-2 rounded-full hover:bg-slate-200 transition">Profil</a>
     <a href="/katalog" class="px-4 py-2 rounded-full hover:bg-slate-200 transition">Katalog</a>
     <a href="/bantuan" class="px-4 py-2 rounded-full hover:bg-slate-200 transition">Bantuan</a>
+    <a href="/contact" class="px-4 py-2 rounded-full hover:bg-slate-200 transition">Contact</a>
 </div>
 
 <!-- Content -->

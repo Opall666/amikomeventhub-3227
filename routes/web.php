@@ -18,3 +18,6 @@ Route::get('/bantuan', function () {
     return view('bantuan');
 
 });
+Route::get('/contact', function () {
+    return view('contact');
+});
