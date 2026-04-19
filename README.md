@@ -8,9 +8,9 @@ Link Hosting : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/]
 # Praktikum 3 : Menggunakan Template Blade
 
 Link Halaman Admin <br>
-Dashboard-admin     : []<br>
-Event-admin         : []<br>
-Transaction-admin   : []<br>
+Dashboard-admin     : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/admin/dashboard]<br>
+Event-admin         : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/admin/event]<br>
+Transaction-admin   : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/admin/transactions]<br>
 
 Link Halaman User <br>
 Dashboard/welcome   : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/]<br>
