@@ -19,3 +19,6 @@ Checkout            : [https://amikomeventhub-3227-main-a37oyg.free.laravel.clou
 Ticket              : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/ticket]<br>
 
 # TUGAS 3 : Migrations Database
+Membuat migrations dan seeders ke database
+
+Link hosting : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/]
