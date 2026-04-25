@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
+
 
 // Admin Routes
 Route::get('/admin/dashboard', function () {
@@ -32,3 +34,8 @@ Route::get('/ticket', function () {
     return view('layouts.ticket');
 })->name('layouts.ticket');
 
+// Halaman utama daftar event
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+
+// Detail satu event
+Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
