@@ -79,12 +79,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
     })->name('transactions');
     
 });
-
-// ============================================================================
-// 🔧 DEVELOPMENT / TESTING (Opsional - Hapus saat Production)
-// ============================================================================
-/*
-Route::get('/test', function () {
-    return view('layouts.welcome');
-});
-*/
