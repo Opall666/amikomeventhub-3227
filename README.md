@@ -2,7 +2,7 @@
 # Nim   : 24.12.3227
 # Kelas : Digital Business 4
 
-Link Hosting : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/]
+Link Hosting : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/]
 
 
 # TUGAS 2 : Menggunakan Template Blade
@@ -13,12 +13,12 @@ Event-admin         : [https://amikomeventhub-3227-main-a37oyg.free.laravel.clou
 Transaction-admin   : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/admin/transactions]<br>
 
 Link Halaman User <br>
-Dashboard/welcome   : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/]<br>
-Event detail        : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/event-detail]<br>
-Checkout            : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/checkout]<br>
-Ticket              : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/ticket]<br>
+Dashboard/welcome   : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/]<br>
+Event detail (id)   : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/events/11]<br>
+Checkout (id)       : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/checkout/11]<br>
+Ticket   (id)       : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/ticket/8]<br>
 
 # TUGAS 3 : Migrations Database
 Membuat migrations dan seeders ke database
 
-Link hosting : [https://amikomeventhub-3227-main-a37oyg.free.laravel.cloud/]
+Link hosting : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/]<br>
