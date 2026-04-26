@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 
@@ -55,7 +56,7 @@ class EventController extends Controller
 // Fungsi untuk memproses checkout (POST)
     public function processCheckout(Request $request)
     {
-        // 1. Validasi input
+        // 1. Validasi Input
         $validated = $request->validate([
             'event_id' => 'required|exists:events,id',
             'customer_name' => 'required|string|max:255',
@@ -63,36 +64,44 @@ class EventController extends Controller
             'customer_phone' => 'required|string',
         ]);
 
-        // 2. Ambil data event
-        $event = Event::find($validated['event_id']);
+        $event = \App\Models\Event::find($validated['event_id']);
 
-        // 3. Cek stok
         if ($event->stock < 1) {
-            return redirect()->back()->with('error', 'Maaf, tiket sudah habis!');
+            return redirect()->back()->with('error', 'Maaf, stok tiket sudah habis!');
         }
 
-        // 4. Buat Order ID unik
-        $orderId = 'TRX-' . time() . '-' . rand(1000, 9999);
+        // 2. Gunakan Database Transaction (Aman & Konsisten)
+        DB::beginTransaction();
+        try {
+            $orderId = 'TRX-' . time() . '-' . rand(1000, 9999);
 
-        // 5. Simpan ke tabel transactions
-        $transaction = Transaction::create([
-            'event_id' => $event->id,
-            'order_id' => $orderId,
-            'customer_name' => $validated['customer_name'],
-            'customer_email' => $validated['customer_email'],
-            'customer_phone' => $validated['customer_phone'],
-            'total_price' => $event->price + 5000, // harga tiket + biaya layanan
-            'status' => 'Pending',
-        ]);
+            // Simpan transaksi DULUAN
+            $transaction = \App\Models\Transaction::create([
+                'event_id' => $event->id,
+                'order_id' => $orderId,
+                'customer_name' => $validated['customer_name'],
+                'customer_email' => $validated['customer_email'],
+                'customer_phone' => $validated['customer_phone'],
+                'total_price' => $event->price + 5000,
+                'status' => 'Pending',
+            ]);
 
-        // 6. Kurangi stok event
-        $event->decrement('stock');
+            // Baru kurangi stok
+            $event->decrement('stock');
 
-        // 7. Redirect ke halaman ticket/sukses
-        // Simpan ke session
-        session(['last_transaction' => $transaction, 'last_event' => $event]);
+            // Commit semua perubahan
+            DB::commit();
 
-        // Redirect
-        return redirect()->route('ticket.success', $transaction->id);
+            // Redirect ke halaman sukses
+            return redirect()->route('ticket.success')->with([
+                'transaction' => $transaction,
+                'event' => $event,
+            ]);
+
+        } catch (\Exception $e) {
+            // Jika gagal, batalkan semua (stok tidak berkurang, data tidak masuk)
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal memproses pesanan: ' . $e->getMessage());
         }
+    }
 }
