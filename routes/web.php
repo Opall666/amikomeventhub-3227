@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\Admin\EventController as EventAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,12 +69,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.dashboard');
     })->name('dashboard');
     
-    // Manage Events (CRUD will be implemented later)
-    Route::get('/events', function () {
-        return view('admin.event');
-    })->name('events');
+    // ✅ 2. GANTI route manual events dengan Route::resource
+    // Ini otomatis membuat 7 route CRUD: index, create, store, show, edit, update, destroy
+    Route::resource('events', EventAdminController::class);
     
-    // Manage Transactions
+    // Manage Transactions (tetap manual untuk sekarang)
     Route::get('/transactions', function () {
         return view('admin.transactions');
     })->name('transactions');

@@ -59,10 +59,17 @@
             <!-- Event Card (Dynamic) -->
             <div class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden">
                 <div class="relative overflow-hidden aspect-[3/4]">
-                    <!-- Gambar: pakai poster_path dari DB, fallback ke concert.png -->
-                    <img src="{{ $event->poster_path ? asset($event->poster_path) : asset('assets/concert.png') }}" 
-                         alt="{{ $event->title }}"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <!-- gambar path untuk data lama & baru -->
+                    <img src="{{ 
+                        $event->poster_path 
+                            ? (str_starts_with($event->poster_path, 'assets/') 
+                                ? asset($event->poster_path)  
+                                : asset('storage/' . $event->poster_path) 
+                            )
+                            : asset('assets/concert.png')  
+                    }}" 
+                        alt="{{ $event->title }}"
+                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                     <div class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
                         {{ $event->category->name }}
                     </div>
