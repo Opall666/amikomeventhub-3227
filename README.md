@@ -27,3 +27,10 @@ Link hosting : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/]<br>
 
 # TUGAS 4 ELOQUENT ORM & CRUD
 
+Link admin dashboard    : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/admin/dashboard]<br>
+Link admin events       : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/admin/events]<br>
+Link admin transactions : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/admin/transactions]<br>
+
+Link dashboard user     : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/]<br>
+
+Link Database : [postgres://laravel:npg_bNVlcAM4UuH2@ep-morning-dust-a5rsx1vv.aws-us-east-2.pg.laravel.cloud/main?name=Cloud%20-%20amikomeventhub_3227]
