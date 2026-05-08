@@ -22,3 +22,8 @@ Ticket   (id)       : [https://amikomeventhub-3227-main-qcilpt.free.laravel.clou
 Membuat migrations dan seeders ke database
 
 Link hosting : [https://amikomeventhub-3227-main-qcilpt.free.laravel.cloud/]<br>
+
+
+
+# TUGAS 4 ELOQUENT ORM & CRUD
+
