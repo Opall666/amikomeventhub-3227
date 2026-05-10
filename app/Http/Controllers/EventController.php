@@ -16,9 +16,15 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::with('category')
-            ->latest('date')
-            ->take(6)
-            ->get();
+            ->latest()  
+            ->paginate(6);  
+
+        if (request()->ajax()) {
+            return response()->json([
+                'html' => view('partials.event-card', compact('events'))->render(),
+                'next_page' => $events->nextPageUrl(),
+            ]);
+        }
 
         return view('layouts.welcome', compact('events'));
     }

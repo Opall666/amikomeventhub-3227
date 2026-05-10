@@ -11,12 +11,15 @@ class Event extends Model
     protected $fillable = [
         'category_id',
         'title',
+        'organizer',
         'description',
         'date',
         'location',
+        'location_detail',
         'price',
         'stock',
         'poster_path',
+        'guest_star',
     ];
 
     // ✅ Cast date ke datetime object

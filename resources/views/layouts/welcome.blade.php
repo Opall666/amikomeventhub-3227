@@ -43,6 +43,7 @@
     </section>
 
     <!-- Events Grid (DINAMIS - Sudah Dirapikan) -->
+        <!-- Events Grid (DINAMIS - Load More) -->
     <section id="events" class="max-w-7xl mx-auto px-6 py-20">
         <div class="flex justify-between items-end mb-12">
             <div>
@@ -54,55 +55,120 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @forelse($events as $event)
-            <!-- Event Card (Dynamic) -->
-            <div class="group bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div class="relative overflow-hidden aspect-[3/4]">
-                    <!-- gambar path untuk data lama & baru -->
-                    <img src="{{ 
-                        $event->poster_path 
-                            ? (str_starts_with($event->poster_path, 'assets/') 
-                                ? asset($event->poster_path)  
-                                : asset('storage/' . $event->poster_path) 
-                            )
-                            : asset('assets/concert.png')  
-                    }}" 
-                        alt="{{ $event->title }}"
-                        class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute top-4 left-4 px-3 py-1 bg-white/90 backdrop-blur rounded-lg text-xs font-bold uppercase text-indigo-600">
-                        {{ $event->category->name }}
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold mb-2 group-hover:text-indigo-600 transition">
-                        {{ Str::limit($event->title, 40) }}
-                    </h3>
-                    <div class="flex items-center gap-2 text-slate-500 text-sm mb-4">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <span>{{ \Carbon\Carbon::parse($event->date)->format('d M Y, H:i') }}</span>
-                    </div>
-                    <div class="flex justify-between items-center pt-4 border-t">
-                        <span class="text-2xl font-black text-indigo-600">
-                            @if($event->price == 0) Gratis @else Rp {{ number_format($event->price/1000, 0, ',', '.') }}rb @endif
-                        </span>
-                        <a href="{{ route('events.show', $event->id) }}" 
-                           class="px-5 py-2 bg-indigo-50 text-indigo-600 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition">
-                            Lihat Detail
-                        </a>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <!-- Fallback jika tidak ada event di database -->
-            <div class="col-span-full text-center py-12">
-                <p class="text-slate-500 text-lg">Belum ada event yang tersedia.</p>
-            </div>
-            @endforelse
+        <!-- ✅ Container untuk Load More -->
+        <div id="event-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @include('partials.event-card', ['events' => $events])
         </div>
-        <!-- ✅ Grid ditutup di sini, tidak ada card hardcoded lagi -->
+
+        <!-- Tombol Load More -->
+        <div class="text-center mt-12">
+    <!-- Tombol Load More -->
+            <button id="load-more-btn" class="px-8 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed" style="display: none;">
+                Muat Lebih Banyak
+            </button>
+            
+            <!-- Loading Text -->
+            <p id="loading-text" class="text-slate-500 mt-2 hidden">Memuat event...</p>
+            
+            <!-- Pesan: Semua Event Sudah Ditampilkan (Hidden by default) -->
+            <p id="end-message" class="text-slate-400 mt-4 hidden flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                </svg>
+                ✨ Semua event sudah ditampilkan 
+            </p>
+        </div>
     </section>
+
+       <!--  Data Pagination -->
+    <div id="pagination-data" 
+         data-next-page="{{ $events->nextPageUrl() }}" 
+         style="display: none;">
+    </div>
+
+    <button id="back-to-top" 
+            class="fixed bottom-6 right-6 p-3 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 hover:scale-110 transition-all duration-300 opacity-0 invisible translate-y-4 z-50">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ============================
+            // 1. LOAD MORE LOGIC
+            // ============================
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            const loadingText = document.getElementById('loading-text');
+            const container = document.getElementById('event-container');
+            const endMessage = document.getElementById('end-message');
+            const paginationData = document.getElementById('pagination-data');
+            
+            let nextPageUrl = paginationData?.dataset.nextPage || null;
+
+            if (nextPageUrl) {
+                loadMoreBtn.style.display = 'inline-block';
+            }
+
+            loadMoreBtn.addEventListener('click', async function() {
+                if (!nextPageUrl) return;
+
+                loadMoreBtn.disabled = true;
+                loadMoreBtn.textContent = 'Memuat...';
+                loadingText.classList.remove('hidden');
+
+                try {
+                    const response = await fetch(nextPageUrl, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+                    });
+                    const data = await response.json();
+
+                    if (data.html) {
+                        container.insertAdjacentHTML('beforeend', data.html);
+                    }
+
+                    nextPageUrl = data.next_page;
+
+                    if (!nextPageUrl) {
+                        loadMoreBtn.style.display = 'none';
+                        endMessage.classList.remove('hidden'); // ✅ Tampilkan pesan selesai
+                    } else {
+                        loadMoreBtn.disabled = false;
+                        loadMoreBtn.textContent = 'Muat Lebih Banyak';
+                    }
+                } catch (error) {
+                    console.error('Error loading more events:', error);
+                    loadMoreBtn.textContent = 'Gagal memuat, coba lagi';
+                    setTimeout(() => {
+                        loadMoreBtn.disabled = false;
+                        loadMoreBtn.textContent = 'Muat Lebih Banyak';
+                    }, 2000);
+                } finally {
+                    loadingText.classList.add('hidden');
+                }
+            });
+
+            // ============================
+            // 2. BACK TO TOP LOGIC
+            // ============================
+            const backToTopBtn = document.getElementById('back-to-top');
+            const scrollThreshold = 300; // Muncul setelah scroll 300px
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > scrollThreshold) {
+                    // Tampilkan tombol
+                    backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+                    backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+                } else {
+                    // Sembunyikan tombol
+                    backToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+                    backToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
 
 @endsection

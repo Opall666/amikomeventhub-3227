@@ -17,6 +17,15 @@
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
         }
+        #end-message {
+            transition: opacity 0.3s ease;
+        }
+        #end-message.hidden {
+            opacity: 0;
+        }
+        #end-message:not(.hidden) {
+            opacity: 1;
+        }
     </style>
 </head>
 

@@ -15,72 +15,102 @@
 
             <!-- Judul Event -->
             <div class="mb-6">
-                <label class="block text-sm font-bold text-slate-700 mb-2">Judul Event</label>
-                <input type="text" name="title" value="{{ old('title') }}" 
+                <label class="block text-sm font-bold text-slate-700 mb-2">Judul Event <span class="text-red-500">*</span></label>
+                <input type="text" name="title" value="{{ old('title') }}" required
                        class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium"
                        placeholder="Contoh: Jazz Night 2024">
                 @error('title') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Kategori -->
+            <!-- ✅ PENYELENGGARA -->
             <div class="mb-6">
-                <label class="block text-sm font-bold text-slate-700 mb-2">Kategori</label>
-                <select name="category_id" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium">
-                    <option value="">Pilih Kategori...</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('category_id') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+                <label class="block text-sm font-bold text-slate-700 mb-2">Penyelenggara <span class="text-red-500">*</span></label>
+                <input type="text" name="organizer" value="{{ old('organizer') }}" required
+                       class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium"
+                       placeholder="Contoh: Amikom Event Organizer / Himpunan Mahasiswa">
+                @error('organizer') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Deskripsi -->
-            <div class="mb-6">
-                <label class="block text-sm font-bold text-slate-700 mb-2">Deskripsi</label>
-                <textarea name="description" rows="4" 
-                          class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium"
-                          placeholder="Jelaskan tentang event ini...">{{ old('description') }}</textarea>
-                @error('description') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-            </div>
-
-            <!-- Tanggal & Lokasi (Grid 2 Kolom) -->
+            <!-- Kategori & Tanggal (Grid 2 Kolom) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal & Waktu</label>
-                    <input type="datetime-local" name="date" value="{{ old('date') }}" 
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Kategori <span class="text-red-500">*</span></label>
+                    <select name="category_id" required
+                            class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium">
+                        <option value="">Pilih Kategori...</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('category_id') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal & Waktu <span class="text-red-500">*</span></label>
+                    <input type="datetime-local" name="date" value="{{ old('date') }}" required
                            class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium">
                     @error('date') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Lokasi</label>
-                    <input type="text" name="location" value="{{ old('location') }}" 
-                           class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium"
-                           placeholder="Contoh: Aula Utama">
-                    @error('location') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                </div>
+            </div>
+
+            <!-- Lokasi -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-slate-700 mb-2">Nama Tempat / Lokasi <span class="text-red-500">*</span></label>
+                <input type="text" name="location" value="{{ old('location') }}" required
+                       class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium"
+                       placeholder="Contoh: Aula Utama Kampus">
+                @error('location') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- ✅ ALAMAT DETAIL -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-slate-700 mb-2">Alamat Lengkap <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                <input type="text" name="location_detail" value="{{ old('location_detail') }}"
+                       class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium"
+                       placeholder="Contoh: Jl. Ring Road Utara, Condongcatur, Sleman, Yogyakarta">
+                @error('location_detail') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
             </div>
 
             <!-- Harga & Stok (Grid 2 Kolom) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Harga Tiket (Rp)</label>
-                    <input type="number" name="price" value="{{ old('price', 0) }}" 
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Harga Tiket (Rp) <span class="text-red-500">*</span></label>
+                    <input type="number" name="price" value="{{ old('price', 0) }}" required
                            class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium" min="0">
                     @error('price') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-2">Stok Tiket</label>
-                    <input type="number" name="stock" value="{{ old('stock', 1) }}" 
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Stok Tiket <span class="text-red-500">*</span></label>
+                    <input type="number" name="stock" value="{{ old('stock', 1) }}" required
                            class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium" min="1">
                     @error('stock') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
                 </div>
             </div>
+
+            <!-- Deskripsi -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-slate-700 mb-2">Deskripsi Event <span class="text-red-500">*</span></label>
+                <textarea name="description" rows="4" required
+                          class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium resize-none"
+                          placeholder="Jelaskan detail acara, rundown, fasilitas, dll...">{{ old('description') }}</textarea>
+                @error('description') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+            </div>
+
+            <!-- ✅ GUEST STAR / PEMBICARA -->
+            <div class="mb-6">
+                <label class="block text-sm font-bold text-slate-700 mb-2">Guest Star / Pembicara <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                <textarea name="guest_star" rows="3"
+                          class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium resize-none"
+                          placeholder="Contoh:&#10;• Prof. Budi Santoso (AI Expert)&#10;• DJ Yasmin">{{ old('guest_star') }}</textarea>
+                @error('guest_star') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
+                <p class="text-xs text-slate-400 mt-1">Kosongkan jika event tidak memiliki narasumber/artis utama.</p>
+            </div>
+
             <!-- Upload Poster -->
             <div class="mb-6">
                 <label class="block text-sm font-bold text-slate-700 mb-2">Poster Event (Opsional)</label>
-                <input type="file" name="poster" accept="image/*" 
+                <input type="file" name="poster" accept="image/*"
                     class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:border-indigo-600 outline-none transition font-medium">
                 <p class="text-xs text-slate-400 mt-1">Format: JPG, PNG, GIF (Max 2MB)</p>
                 @error('poster') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror

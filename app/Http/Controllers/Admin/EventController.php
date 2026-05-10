@@ -40,13 +40,16 @@ class EventController extends Controller
         // Validasi input dari form
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'organizer'       => 'required|string|max:255',
             'description' => 'required|string',
             'date' => 'required|date',
             'location' => 'required|string|max:255',
+            'location_detail' => 'nullable|string|max:500',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:1',
             'category_id' => 'required|exists:categories,id',
             'poster_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+            'guest_star'      => 'nullable|string|max:1000',
         ]);
         // Handle Upload Gambar
         if ($request->hasFile('poster')) {
@@ -88,13 +91,16 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'title'       => 'required|string|max:255',
+            'organizer'       => 'required|string|max:255',
             'description' => 'required|string',
             'date'        => 'required|date',
             'location'    => 'required|string|max:255',
+            'location_detail' => 'nullable|string|max:500',
             'price'       => 'required|numeric|min:0',
             'stock'       => 'required|numeric|min:1',
             'category_id' => 'required|exists:categories,id',
             'poster'      => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'guest_star'      => 'nullable|string|max:1000',
         ]);
 
         // Handle upload gambar baru (jika ada)
